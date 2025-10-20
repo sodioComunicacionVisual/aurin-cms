@@ -1,0 +1,12 @@
+{
+  "functions": {
+    "src/server.ts": {
+      "maxDuration": 30
+    }
+  },
+  "env": {
+    "DATABASE_URI": "@database_uri",
+    "PAYLOAD_SECRET": "@payload_secret",
+    "VERCEL_PROJECT_PRODUCTION_URL": "@vercel_project_production_url"
+  }
+}
