@@ -1,13 +1,9 @@
 {
+  "buildCommand": "npm run vercel-build",
+  "framework": "nextjs",
   "functions": {
-    "app/api/[[...slug]]/route.ts": {
+    "src/app/(payload)/api/[...slug]/route.ts": {
       "maxDuration": 30
     }
-  },
-  "rewrites": [
-    {
-      "source": "/admin/(.*)",
-      "destination": "/admin/$1"
-    }
-  ]
+  }
 }
