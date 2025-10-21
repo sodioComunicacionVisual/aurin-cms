@@ -56,7 +56,7 @@ export default buildConfig({
   sharp,
   plugins: [
     payloadCloudPlugin(),
-    // Vercel Blob Storage para uploads
+    // Vercel Blob Storage - IMPORTANTE: clientUploads bypass del límite 4.5MB de Vercel
     ...(process.env.BLOB_READ_WRITE_TOKEN ? [
       vercelBlobStorage({
         enabled: true,
@@ -64,6 +64,9 @@ export default buildConfig({
           media: true,
         },
         token: process.env.BLOB_READ_WRITE_TOKEN,
+        clientUploads: true, // ⚠️ CRÍTICO para Vercel - bypass límite 4.5MB
+        addRandomSuffix: true, // Evita colisiones de nombres
+        cacheControlMaxAge: 365 * 24 * 60 * 60, // 1 año de caché
       })
     ] : []),
   ],
