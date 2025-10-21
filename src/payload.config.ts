@@ -52,10 +52,32 @@ export default buildConfig({
   },
   db: mongooseAdapter({
     url: process.env.DATABASE_URI || '',
+    connectOptions: {
+      maxPoolSize: 10, // Límite de conexiones para serverless
+      minPoolSize: 2,
+      socketTimeoutMS: 60000,
+      serverSelectionTimeoutMS: 5000,
+    },
   }),
   sharp,
+
+  // Configuración de rutas
+  routes: {
+    admin: '/admin',
+    api: '/api',
+  },
+
+  // CORS para evitar bloqueos
+  cors: [
+    process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000',
+  ].filter(Boolean),
+
+  // CSRF protection
+  csrf: [
+    process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000',
+  ].filter(Boolean),
+
   plugins: [
-    payloadCloudPlugin(),
     // Vercel Blob Storage - IMPORTANTE: clientUploads bypass del límite 4.5MB de Vercel
     ...(process.env.BLOB_READ_WRITE_TOKEN ? [
       vercelBlobStorage({
