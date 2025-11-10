@@ -143,14 +143,12 @@ export const Projects: CollectionConfig = {
           name: 'title',
           type: 'text',
           label: 'Título del Caso de Estudio',
-          required: true,
           localized: true,
         },
         {
           name: 'content',
           type: 'richText',
           label: 'Contenido',
-          required: true,
           localized: true,
         },
       ],
@@ -161,7 +159,7 @@ export const Projects: CollectionConfig = {
       type: 'array',
       label: 'Galería de Imágenes',
       minRows: 1,
-      maxRows: 8,
+      maxRows: 1,
       fields: [
         {
           name: 'image',
