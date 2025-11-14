@@ -103,7 +103,7 @@ export const Projects: CollectionConfig = {
       fields: [
         {
           name: 'description',
-          type: 'textarea',
+          type: 'richText',
           label: 'Descripción Breve',
           required: true,
           localized: true,
@@ -298,6 +298,37 @@ export const Projects: CollectionConfig = {
             .replace(/[^a-z0-9]+/g, '-')
             .replace(/(^-|-$)/g, '')
         }
+
+        // Convert plain text to Lexical format for hero.description
+        if (data.hero?.description && typeof data.hero.description === 'string') {
+          const paragraphs = data.hero.description.split('\n\n').filter(p => p.trim())
+          data.hero.description = {
+            root: {
+              type: 'root',
+              format: '',
+              indent: 0,
+              version: 1,
+              children: paragraphs.map(text => ({
+                type: 'paragraph',
+                format: '',
+                indent: 0,
+                version: 1,
+                children: [{
+                  type: 'text',
+                  format: 0,
+                  text: text.replace(/\n/g, ' '),
+                  version: 1,
+                  mode: 'normal',
+                  style: '',
+                  detail: 0,
+                }],
+                direction: 'ltr',
+              })),
+              direction: 'ltr',
+            },
+          }
+        }
+
         return data
       },
     ],

@@ -176,18 +176,7 @@ export interface Project {
   category: string | Category;
   tags?: (string | Tag)[] | null;
   hero: {
-    description: string;
-    bannerImage: string | Media;
-    services?:
-      | {
-          name: string;
-          id?: string | null;
-        }[]
-      | null;
-  };
-  caseStudy: {
-    title: string;
-    content: {
+    description: {
       root: {
         type: string;
         children: {
@@ -202,6 +191,31 @@ export interface Project {
       };
       [k: string]: unknown;
     };
+    bannerImage: string | Media;
+    services?:
+      | {
+          name: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  caseStudy?: {
+    title?: string | null;
+    content?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
   };
   gallery?:
     | {
