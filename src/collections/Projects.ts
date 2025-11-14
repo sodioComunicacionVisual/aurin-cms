@@ -301,14 +301,14 @@ export const Projects: CollectionConfig = {
 
         // Convert plain text to Lexical format for hero.description
         if (data.hero?.description && typeof data.hero.description === 'string') {
-          const paragraphs = data.hero.description.split('\n\n').filter(p => p.trim())
+          const paragraphs = data.hero.description.split('\n\n').filter((p: string) => p.trim())
           data.hero.description = {
             root: {
               type: 'root',
               format: '',
               indent: 0,
               version: 1,
-              children: paragraphs.map(text => ({
+              children: paragraphs.map((text: string) => ({
                 type: 'paragraph',
                 format: '',
                 indent: 0,
