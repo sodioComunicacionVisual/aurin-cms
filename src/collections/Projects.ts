@@ -111,7 +111,7 @@ export const Projects: CollectionConfig = {
         {
           name: 'bannerImage',
           type: 'upload',
-          label: 'Imagen Banner',
+          label: 'Imagen Principal',
           relationTo: 'media',
           required: true,
         },

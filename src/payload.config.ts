@@ -67,18 +67,22 @@ export default buildConfig({
     api: '/api',
   },
 
-  // CORS para evitar bloqueos
+  // CORS para evitar bloqueos - incluir todos los orígenes necesarios
   cors: [
     process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000',
+    'https://aurin-payload-cms.vercel.app',
+    'http://localhost:3000',
   ].filter(Boolean),
 
-  // CSRF protection
+  // CSRF protection - debe coincidir con CORS
   csrf: [
     process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000',
+    'https://aurin-payload-cms.vercel.app',
+    'http://localhost:3000',
   ].filter(Boolean),
 
   plugins: [
-    // Vercel Blob Storage - IMPORTANTE: clientUploads bypass del límite 4.5MB de Vercel
+    // Vercel Blob Storage
     ...(process.env.BLOB_READ_WRITE_TOKEN ? [
       vercelBlobStorage({
         enabled: true,
@@ -86,8 +90,7 @@ export default buildConfig({
           media: true,
         },
         token: process.env.BLOB_READ_WRITE_TOKEN,
-        clientUploads: true, // ⚠️ CRÍTICO para Vercel - bypass límite 4.5MB
-        addRandomSuffix: true, // Evita colisiones de nombres
+        addRandomSuffix: true,
         cacheControlMaxAge: 365 * 24 * 60 * 60, // 1 año de caché
       })
     ] : []),
