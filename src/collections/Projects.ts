@@ -183,27 +183,6 @@ export const Projects: CollectionConfig = {
         },
       ],
     },
-    // Learning Section
-    {
-      name: 'learnings',
-      type: 'group',
-      label: 'Aprendizajes',
-      fields: [
-        {
-          name: 'title',
-          type: 'text',
-          label: 'Título de Aprendizajes',
-          defaultValue: 'Nuestros Aprendizajes',
-          localized: true,
-        },
-        {
-          name: 'content',
-          type: 'richText',
-          label: 'Contenido de Aprendizajes',
-          localized: true,
-        },
-      ],
-    },
     // Client Information
     {
       name: 'client',
