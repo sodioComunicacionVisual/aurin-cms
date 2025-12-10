@@ -47,54 +47,7 @@ async function seedSinfonicaProject() {
       console.log('✅ Category found:', category.id)
     }
 
-    // 2. Create Tags
-    const tagData = [
-      { nameEs: 'UX/UI', nameEn: 'UX/UI', slug: 'ux-ui' },
-      { nameEs: 'Desarrollo Frontend', nameEn: 'Frontend Development', slug: 'frontend' },
-      { nameEs: 'Desarrollo Backend', nameEn: 'Backend Development', slug: 'backend' },
-    ]
-
-    const tags = []
-    for (const tagInfo of tagData) {
-      let tagDocs = await payload.find({
-        collection: 'tags',
-        where: {
-          slug: {
-            equals: tagInfo.slug,
-          },
-        },
-      })
-
-      let tag
-      if (tagDocs.docs.length === 0) {
-        tag = await payload.create({
-          collection: 'tags',
-          data: {
-            name: tagInfo.nameEs,
-            slug: tagInfo.slug,
-          },
-          locale: 'es',
-        })
-
-        // Add English translation
-        await payload.update({
-          collection: 'tags',
-          id: tag.id,
-          data: {
-            name: tagInfo.nameEn,
-          },
-          locale: 'en',
-        })
-
-        console.log('✅ Tag created:', tag.id, '-', tagInfo.nameEs)
-        tags.push(tag.id)
-      } else {
-        tags.push(tagDocs.docs[0].id)
-        console.log('✅ Tag found:', tagDocs.docs[0].id)
-      }
-    }
-
-    // 3. Create Project (Spanish)
+    // 2. Create Project (Spanish)
     const projectDataEs: any = {
       title: 'Sinfónica de Minería',
       slug: 'sinfonica-mineria',
@@ -102,35 +55,39 @@ async function seedSinfonicaProject() {
       featured: true,
       publishDate: new Date().toISOString(),
       category: category.id,
-      tags: tags,
+      website: 'https://osm.org.mx',
+      keywords: [
+        { keyword: 'diseño web' },
+        { keyword: 'orquesta' },
+        { keyword: 'música clásica' },
+        { keyword: 'streaming' },
+        { keyword: 'e-commerce' },
+      ],
       hero: {
         description:
           'La Orquesta Sinfónica de Minería es una de las instituciones musicales más importantes de México, reconocida no solo por el alto nivel de sus integrantes, sino también por la calidad de sus interpretaciones. Con el paso de las décadas, la Sinfónica ha evolucionado y decidió renovar su identidad visual por una más contemporánea, sin dejar de honrar sus raíces.',
         services: [{ name: 'UX/UI' }, { name: 'Desarrollo front/back con integraciones' }],
       },
-      caseStudy: {
-        title: 'Compartiendo el amor por la música',
-        content: {
-          root: {
-            type: 'root',
-            children: [
-              {
-                type: 'paragraph',
-                children: [
-                  {
-                    type: 'text',
-                    text: 'Este cambio trajo consigo la necesidad de alinear su presencia digital. Así nació la oportunidad de replantear la forma en que la Sinfónica interactúa con sus audiencias. Diseñamos y desarrollamos un sitio web que refleja su nuevo lenguaje visual y que, además, integra una mediateca con acceso por suscripción, una tienda en línea y un sistema de gestión de donaciones y conciertos.',
-                  },
-                ],
-              },
-            ],
-          },
-        },
-      },
       gallery: [
         {
-          alt: 'Imagen del proyecto Sinfónica de Minería',
-          caption: 'Vista principal del sitio web',
+          alt: 'Orquesta Sinfónica de Minería - Vista principal',
+          caption: 'Página de inicio del sitio web',
+        },
+        {
+          alt: 'Orquesta Sinfónica de Minería - Catálogo de conciertos',
+          caption: 'Sistema de gestión de conciertos',
+        },
+        {
+          alt: 'Orquesta Sinfónica de Minería - Mediateca',
+          caption: 'Plataforma de streaming con suscripción',
+        },
+        {
+          alt: 'Orquesta Sinfónica de Minería - Tienda online',
+          caption: 'E-commerce integrado',
+        },
+        {
+          alt: 'Orquesta Sinfónica de Minería - Sistema de donaciones',
+          caption: 'Módulo de donaciones y patrocinios',
         },
       ],
       learnings: {
@@ -194,9 +151,16 @@ async function seedSinfonicaProject() {
       console.log('✅ Project created (ES):', project.id)
     }
 
-    // 4. Add English translation
+    // 3. Add English translation
     const projectDataEn: any = {
       title: 'Minería Symphony Orchestra',
+      keywords: [
+        { keyword: 'web design' },
+        { keyword: 'orchestra' },
+        { keyword: 'classical music' },
+        { keyword: 'streaming' },
+        { keyword: 'e-commerce' },
+      ],
       hero: {
         description:
           "The Minería Symphony Orchestra is one of Mexico's most important musical institutions, known not only for the outstanding level of its musicians but also for the excellence of its performances. Over the decades, the orchestra has evolved and decided to renew its visual identity to one that feels more contemporary—without losing sight of its roots.",
@@ -205,29 +169,26 @@ async function seedSinfonicaProject() {
           { name: 'Front-end/back-end development with custom integrations' },
         ],
       },
-      caseStudy: {
-        title: 'Sharing the love for music',
-        content: {
-          root: {
-            type: 'root',
-            children: [
-              {
-                type: 'paragraph',
-                children: [
-                  {
-                    type: 'text',
-                    text: "This change brought the need to realign its digital presence. That's when the opportunity arose to rethink how the orchestra engages with its audiences. We designed and developed a website that reflects its new visual language and includes a subscription-based media library, an online store, and an integrated system for donations and concert management.",
-                  },
-                ],
-              },
-            ],
-          },
-        },
-      },
       gallery: [
         {
-          alt: 'Minería Symphony Orchestra project image',
-          caption: 'Main website view',
+          alt: 'Minería Symphony Orchestra - Main view',
+          caption: 'Website homepage',
+        },
+        {
+          alt: 'Minería Symphony Orchestra - Concert catalog',
+          caption: 'Concert management system',
+        },
+        {
+          alt: 'Minería Symphony Orchestra - Media library',
+          caption: 'Streaming platform with subscription',
+        },
+        {
+          alt: 'Minería Symphony Orchestra - Online store',
+          caption: 'Integrated e-commerce',
+        },
+        {
+          alt: 'Minería Symphony Orchestra - Donation system',
+          caption: 'Donations and sponsorship module',
         },
       ],
       learnings: {
@@ -269,7 +230,11 @@ async function seedSinfonicaProject() {
     console.log('   - Admin: http://localhost:3000/admin/collections/projects/' + project.id)
     console.log('   - Web (ES): http://localhost:4321/proyecto-payload/sinfonica-mineria')
     console.log('   - Web (EN): http://localhost:4321/en/proyecto-payload/sinfonica-mineria')
-    console.log('\n⚠️  Nota: Las imágenes deben agregarse manualmente desde el admin panel.')
+    console.log('\n✨ El proyecto incluye:')
+    console.log('   - 5 keywords/palabras clave')
+    console.log('   - 5 imágenes en la galería (placeholders - agrega URLs desde el admin)')
+    console.log('   - Website del proyecto: https://osm.org.mx')
+    console.log('\n⚠️  Nota: Sube las imágenes reales desde el admin panel para ver el carousel funcionando.')
 
     process.exit(0)
   } catch (error) {

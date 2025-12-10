@@ -161,6 +161,24 @@ export interface Media {
   height?: number | null;
   focalX?: number | null;
   focalY?: number | null;
+  sizes?: {
+    thumbnail?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    card?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+  };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -173,8 +191,19 @@ export interface Project {
   status: 'draft' | 'published' | 'archived';
   featured?: boolean | null;
   publishDate: string;
-  category: string | Category;
-  tags?: (string | Tag)[] | null;
+  /**
+   * Selecciona una o más categorías para filtrar este proyecto. Estas son diferentes a los servicios ofrecidos.
+   */
+  projectFilters?:
+    | ('diseno-ux-ui' | 'desarrollo-web-movil' | 'desarrollo-branding' | 'marketing-digital' | 'pruebas-usabilidad')[]
+    | null;
+  website?: string | null;
+  keywords?:
+    | {
+        keyword: string;
+        id?: string | null;
+      }[]
+    | null;
   hero: {
     description: {
       root: {
@@ -199,24 +228,6 @@ export interface Project {
         }[]
       | null;
   };
-  caseStudy?: {
-    title?: string | null;
-    content?: {
-      root: {
-        type: string;
-        children: {
-          type: any;
-          version: number;
-          [k: string]: unknown;
-        }[];
-        direction: ('ltr' | 'rtl') | null;
-        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-        indent: number;
-        version: number;
-      };
-      [k: string]: unknown;
-    } | null;
-  };
   gallery?:
     | {
         image: string | Media;
@@ -225,38 +236,11 @@ export interface Project {
         id?: string | null;
       }[]
     | null;
-  learnings?: {
-    title?: string | null;
-    content?: {
-      root: {
-        type: string;
-        children: {
-          type: any;
-          version: number;
-          [k: string]: unknown;
-        }[];
-        direction: ('ltr' | 'rtl') | null;
-        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-        indent: number;
-        version: number;
-      };
-      [k: string]: unknown;
-    } | null;
-  };
   client: {
     name: string;
     industry?: string | null;
-    website?: string | null;
     logo?: (string | null) | Media;
   };
-  metrics?:
-    | {
-        label: string;
-        value: string;
-        description?: string | null;
-        id?: string | null;
-      }[]
-    | null;
   seo?: {
     metaTitle?: string | null;
     metaDescription?: string | null;
@@ -397,6 +381,30 @@ export interface MediaSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
+  sizes?:
+    | T
+    | {
+        thumbnail?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        card?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+      };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -408,8 +416,14 @@ export interface ProjectsSelect<T extends boolean = true> {
   status?: T;
   featured?: T;
   publishDate?: T;
-  category?: T;
-  tags?: T;
+  projectFilters?: T;
+  website?: T;
+  keywords?:
+    | T
+    | {
+        keyword?: T;
+        id?: T;
+      };
   hero?:
     | T
     | {
@@ -422,12 +436,6 @@ export interface ProjectsSelect<T extends boolean = true> {
               id?: T;
             };
       };
-  caseStudy?:
-    | T
-    | {
-        title?: T;
-        content?: T;
-      };
   gallery?:
     | T
     | {
@@ -436,27 +444,12 @@ export interface ProjectsSelect<T extends boolean = true> {
         caption?: T;
         id?: T;
       };
-  learnings?:
-    | T
-    | {
-        title?: T;
-        content?: T;
-      };
   client?:
     | T
     | {
         name?: T;
         industry?: T;
-        website?: T;
         logo?: T;
-      };
-  metrics?:
-    | T
-    | {
-        label?: T;
-        value?: T;
-        description?: T;
-        id?: T;
       };
   seo?:
     | T

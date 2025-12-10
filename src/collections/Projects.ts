@@ -8,7 +8,7 @@ export const Projects: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'title',
-    defaultColumns: ['title', 'category', 'status', 'featured', 'updatedAt'],
+    defaultColumns: ['title', 'projectFilters', 'status', 'featured', 'updatedAt'],
     group: 'Contenido',
   },
   access: {
@@ -76,24 +76,58 @@ export const Projects: CollectionConfig = {
       },
     },
     {
-      name: 'category',
-      type: 'relationship',
-      label: 'Categoría',
-      relationTo: 'categories',
-      required: true,
+      name: 'projectFilters',
+      type: 'select',
+      label: 'Filtros de Categoría',
+      hasMany: true,
+      options: [
+        {
+          label: 'Diseño UX/UI',
+          value: 'diseno-ux-ui',
+        },
+        {
+          label: 'Desarrollo web y de aplicaciones móviles',
+          value: 'desarrollo-web-movil',
+        },
+        {
+          label: 'Desarrollo de branding',
+          value: 'desarrollo-branding',
+        },
+        {
+          label: 'Marketing digital y redes sociales',
+          value: 'marketing-digital',
+        },
+        {
+          label: 'Pruebas de usabilidad',
+          value: 'pruebas-usabilidad',
+        },
+      ],
       admin: {
         position: 'sidebar',
+        description: 'Selecciona una o más categorías para filtrar este proyecto. Estas son diferentes a los servicios ofrecidos.',
       },
     },
     {
-      name: 'tags',
-      type: 'relationship',
-      label: 'Etiquetas',
-      relationTo: 'tags',
-      hasMany: true,
+      name: 'website',
+      type: 'text',
+      label: 'Sitio Web del Proyecto',
       admin: {
-        position: 'sidebar',
+        placeholder: 'https://ejemplo.com',
       },
+    },
+    {
+      name: 'keywords',
+      type: 'array',
+      label: 'Keywords/Palabras Clave',
+      fields: [
+        {
+          name: 'keyword',
+          type: 'text',
+          label: 'Palabra Clave',
+          required: true,
+          localized: true,
+        },
+      ],
     },
     // Hero Section
     {
@@ -118,7 +152,7 @@ export const Projects: CollectionConfig = {
         {
           name: 'services',
           type: 'array',
-          label: 'Servicios Ofrecidos',
+          label: 'Servicios Ofrecidos (Chips Verdes)',
           minRows: 1,
           maxRows: 6,
           fields: [
@@ -133,33 +167,12 @@ export const Projects: CollectionConfig = {
         },
       ],
     },
-    // Case Study Content
-    {
-      name: 'caseStudy',
-      type: 'group',
-      label: 'Caso de Estudio',
-      fields: [
-        {
-          name: 'title',
-          type: 'text',
-          label: 'Título del Caso de Estudio',
-          localized: true,
-        },
-        {
-          name: 'content',
-          type: 'richText',
-          label: 'Contenido',
-          localized: true,
-        },
-      ],
-    },
     // Image Gallery
     {
       name: 'gallery',
       type: 'array',
       label: 'Galería de Imágenes',
       minRows: 1,
-      maxRows: 1,
       fields: [
         {
           name: 'image',
@@ -201,42 +214,10 @@ export const Projects: CollectionConfig = {
           label: 'Industria',
         },
         {
-          name: 'website',
-          type: 'text',
-          label: 'Sitio Web',
-        },
-        {
           name: 'logo',
           type: 'upload',
           label: 'Logo del Cliente',
           relationTo: 'media',
-        },
-      ],
-    },
-    // Project Metrics
-    {
-      name: 'metrics',
-      type: 'array',
-      label: 'Métricas del Proyecto',
-      fields: [
-        {
-          name: 'label',
-          type: 'text',
-          label: 'Etiqueta',
-          required: true,
-          localized: true,
-        },
-        {
-          name: 'value',
-          type: 'text',
-          label: 'Valor',
-          required: true,
-        },
-        {
-          name: 'description',
-          type: 'text',
-          label: 'Descripción',
-          localized: true,
         },
       ],
     },
